@@ -1,13 +1,14 @@
+
 # Backend setup
 
-The backend will use Python, FastAPI, and uv. uv will manage the project's
+The backend uses Python, FastAPI, and uv. uv manages the project's
 Python version, virtual environment, dependencies, and locked dependency
 versions, so contributors do not need to manage a project environment with
 `pip` and `venv` separately.
 
-> **Current status:** The backend application and `pyproject.toml` have not
-> been scaffolded yet. You can install and verify uv now. The project commands
-> later in this guide will work after the backend foundation is added.
+> **Current status:** The initial backend application has been scaffolded.
+> The FastAPI application and basic endpoint tests have been created.
+> Database migration configuration has not yet been implemented.
 
 ## Prerequisites
 
@@ -16,10 +17,8 @@ versions, so contributors do not need to manage a project environment with
 - The local PostgreSQL service described in [postgresql.md](postgresql.md).
 - uv.
 
-The supported Python version will be declared by the backend's
-`pyproject.toml` and `.python-version`. Do not select a different project
-version independently. uv can install the required Python version when the
-backend is initialized.
+The current local backend configuration uses Python 3.13.
+The supported project-wide Python version should be confirmed with the team.
 
 ## Install uv
 
@@ -63,39 +62,43 @@ Review downloaded installation scripts before running them if required by your
 organization's security policy. See the [official uv installation guide][uv-install]
 for other supported installation methods.
 
-## Backend commands after scaffolding
+## Backend commands
 
-When `backend/pyproject.toml` and the FastAPI application exist, run these
-commands from the repository root.
+Run these commands from the repository root unless otherwise specified.
 
 Install the declared Python version and synchronize dependencies:
 
-```text
+```bash
 cd backend
 uv sync
 ```
 
 Run the development API:
 
-```text
+```bash
 uv run fastapi dev app/main.py
 ```
 
 Run backend tests:
 
-```text
+```bash
 uv run pytest
 ```
 
-Apply database migrations:
+The initial application provides:
+
+- `GET /` — API welcome message.
+- `GET /health` — basic health status.
+
+FastAPI's interactive API documentation is available at:
 
 ```text
-uv run alembic upgrade head
+http://127.0.0.1:8000/docs
 ```
 
-The exact commands may be refined when the backend is scaffolded. At that
-point, this guide should be updated and every command should be verified on a
-fresh development environment.
+Database migrations are not available yet. The command
+`uv run alembic upgrade head` should be used after migration configuration
+and approved migrations have been implemented.
 
 ## Dependency rules
 
